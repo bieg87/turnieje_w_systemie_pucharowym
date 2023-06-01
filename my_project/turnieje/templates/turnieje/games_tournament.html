@@ -1,0 +1,34 @@
+{% extends 'turnieje/scheleton.html' %}
+
+{% block content %}
+
+{% include 'turnieje/games_select_form.html' %}
+    <br />
+    <div style="overflow-y:auto; border: 1px solid #333333; width: 100%; height: 600px;">
+        <h3 class="display-4">Rozgrywane mecze</h3>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Numer</th>
+                <th>Runda</th>
+                <th>Gracz 1</th>
+                <th>Gracz 2</th>
+                <th>Wynik</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in tournament_games %}
+                <tr>
+                    <td>{{ game.nr }}</td>
+                    <td>{{ game.round }}</td>
+                    <td>{{ game.first_player }}</td>
+                    <td>{{ game.second_player }}</td>
+                    <td>{{ game.first_player_score }} : {{ game.second_player_score }}</td>
+                    <td><a href="{% url 'games_update' game.id%}">Wpisz wynik</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

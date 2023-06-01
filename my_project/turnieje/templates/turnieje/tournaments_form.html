@@ -1,0 +1,15 @@
+{% extends 'turnieje/scheleton.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{{ form.media }}
+
+<form method="post">
+    <p>
+        {% csrf_token %}
+        {{ form|crispy }}
+    </p>
+    <button type="submit" class="btn btn-info">Save</button>
+</form>
+
+{% endblock %}

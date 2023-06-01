@@ -1,0 +1,24 @@
+<div class="modal-dialog modal-lg" role="document">
+    <form action="{% url 'games_update' id=games_object.pk %}" method="post" class="form" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Edit Games</h4>
+            </div>
+            <div class="modal-body">
+              {% csrf_token %}
+              {{form|crispy}}
+              {{ form.media }}
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Save changes" />
+            </div>
+        </div><!-- /.modal-content -->
+    </form>
+</div>

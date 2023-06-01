@@ -1,0 +1,78 @@
+{% extends 'turnieje/scheleton.html' %}
+
+{% block content %}
+    <h3 class="display-4">Turnieje</h3>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+                <th>Data rozpoczęcia</th>
+                <th>Maksymalna liczba graczy
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in object_list %}
+                <tr>
+                    <td>{{game.id}}</td>
+                    <td>{{game.name}}</td>
+                    <td>{{game.date_of_start}}</td>
+                    <td>{{game.max_players}}</td>
+                    <td><a href="{%url 'tournament_update' game.id%}">edytuj</a></td>
+                    <td><a href="#" data-url="{%url 'tournament_delete' game.id%}" data-toggle="modal" data-target="#turniejeModal">usuń</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="tournamentModal" tabindex="-1" role="dialog" data-url="" aria-labelledby="tournamentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tournamentModalLabel">Usuwanie turnieju</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Czy na prawdę chcesz usunąć turniej?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    <button type="button" id="save_button" class="btn btn-primary">Usuń</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script language="JavaScript">
+        function csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                var csrftoken = Cookies.get('csrftoken');
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        $("a[data-url]").each(function(_, element) {
+            element.onclick = function() {
+                var delete_url = this.getAttribute('data-url');
+                $("#tournamentModal").data('url', delete_url);
+                $('#tournamentModal').modal('show');
+            };
+        });
+
+        $("#save_button").click(function() {
+            var delete_url = $("#tournamentModal").data('url');
+            $.post(delete_url).done(function() {
+                location.reload();
+            });
+        })
+    </script>
+{% endblock %}

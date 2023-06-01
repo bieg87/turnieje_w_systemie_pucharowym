@@ -1,0 +1,31 @@
+{% extends 'turnieje/scheleton.html' %}
+
+{% block content %}
+
+{% include 'turnieje/date_tournaments_form.html' %}
+
+
+    <h3 class="display-4">Turnieje</h3>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+                <th>Data rozpoczęcia</th>
+                <th>Maksymalna liczba graczy
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in tournaments%}
+                <tr>
+                    <td>{{game.id}}</td>
+                    <td>{{game.name}}</td>
+                    <td>{{game.date_of_start}}</td>
+                    <td>{{game.max_players}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
